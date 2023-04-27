@@ -1,0 +1,63 @@
+#include "dysv5w.h"
+#include "delay.h"
+#include "usart.h"
+#include "sys.h"
+
+uint8_t max[]={0xAA, 0x13, 0x01, 0x1E, 0xDC};//音量最大指令
+uint8_t code_study[]={0xAA, 0x08, 0x0B, 0x02, 0x2F, 0x30, 0x30, 0x30, 0x30, 0x31, 0x2A, 0x4D, 0x50, 0x33, 0xD9};
+uint8_t code_steady[]={0xAA, 0x08, 0x0B, 0x02, 0x2F, 0x30, 0x30, 0x30, 0x30, 0x32, 0x2A, 0x4D, 0x50, 0x33, 0xDA};
+extern int send;
+
+//音量最大化
+void max_volume(void)
+{
+//根据厂家配送的上位机显示音量最大的指令依次发送 0xAA, 0x13, 0x01, 0x1E, 0xDC, 
+	int i=0;
+	for(i=0;i<5;i++)
+		{
+				printf("%c",max[i]);
+		}
+
+}
+////切换到Flash
+//void flash_play(void)
+//{
+//	//手册上的切换指令是AA 0B 01 02 B8
+
+
+//}
+
+//刷卡后语音播报 “开始学习”的录音
+int pleasr_study(void)
+{
+ //默认开始学习是第一个录音  
+//依次发送指令0xAA, 0x08, 0x0B, 0x02, 0x2F, 0x30, 0x30, 0x30, 0x30, 0x31, 0x2A, 0x4D, 0x50, 0x33, 0xD9, 
+	int i=0;
+	if(send==0)
+	{	
+	for(i=0;i<15;i++)
+		{
+				printf("%c",code_study[i]);
+		}
+		send=1;
+		return 1;
+		
+	}
+		else
+			return 0;
+}
+
+ 
+//语音播报 “不要乱晃”
+int please_steady(void)
+{
+//默认是第二个录音
+	int i=0;
+for(i=0;i<15;i++)
+		{
+				printf("%c",code_steady[i]);
+		}
+}
+
+
+
